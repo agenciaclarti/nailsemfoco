@@ -1,4 +1,5 @@
 :root {
+  --header-height: 88px;
   --ink: #090808;
   --coffee: #241512;
   --chocolate: #4a2921;
@@ -222,7 +223,7 @@ summary:focus-visible,
   left: 0;
   display: flex;
   width: 100%;
-  height: 88px;
+  height: var(--header-height);
   align-items: center;
   justify-content: space-between;
   padding: 0 clamp(24px, 4vw, 64px);
@@ -359,6 +360,9 @@ summary:focus-visible,
       rgba(9, 8, 8, 0.45) 100%
     ),
     linear-gradient(0deg, var(--ink), transparent 24%);
+}
+.hero-portrait {
+  display: none;
 }
 .hero-inner {
   position: relative;
@@ -829,7 +833,7 @@ summary:focus-visible,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 30% center;
+  object-position: center 30%;
   filter: saturate(0.88) contrast(1.04);
 }
 .instructor-visual::before {
@@ -903,10 +907,20 @@ summary:focus-visible,
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
-.instructor-copy > p:last-child {
+.instructor-bio {
   color: #b5a6a0;
-  font-size: 0.73rem;
-  line-height: 2;
+  font-size: 0.875rem;
+  line-height: 1.85;
+}
+.instructor-bio p {
+  margin: 0;
+}
+.instructor-bio p + p {
+  margin-top: 1.25em;
+}
+.instructor-bio .instructor-bio-intro {
+  color: var(--champagne);
+  font-weight: 500;
 }
 
 .audience {
@@ -1507,8 +1521,8 @@ details p {
 }
 
 @media (max-width: 1050px) {
-  .site-header {
-    height: 74px;
+  :root {
+    --header-height: 74px;
   }
   .brand {
     width: 100px;
@@ -1607,6 +1621,7 @@ details p {
     padding-inline: 18px;
   }
   .hero {
+    --hero-portrait-height: clamp(250px, 76vw, 360px);
     min-height: 100svh;
     background: linear-gradient(145deg, #090808 0%, #120c0a 58%, #24130f 100%);
   }
@@ -1615,10 +1630,47 @@ details p {
       linear-gradient(0deg, var(--ink), transparent 36%),
       linear-gradient(90deg, rgba(9, 8, 8, 0.96), rgba(9, 8, 8, 0.68));
   }
+  .hero-portrait {
+    position: absolute;
+    z-index: 1;
+    top: var(--header-height);
+    right: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: var(--hero-portrait-height);
+    border-top: 1px solid var(--champagne);
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 58%,
+      rgba(0, 0, 0, 0.85) 68.5%,
+      rgba(0, 0, 0, 0.5) 79%,
+      rgba(0, 0, 0, 0.15) 89.5%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 58%,
+      rgba(0, 0, 0, 0.85) 68.5%,
+      rgba(0, 0, 0, 0.5) 79%,
+      rgba(0, 0, 0, 0.15) 89.5%,
+      transparent 100%
+    );
+  }
+  .hero-portrait img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
   .hero-inner {
     min-height: 100svh;
-    padding: 96px 0 34px;
+    padding: calc(var(--header-height) + var(--hero-portrait-height) - 4px) 0 34px;
     grid-template-columns: 1fr;
+    align-content: start;
     gap: 0;
   }
   .hero-copy {
